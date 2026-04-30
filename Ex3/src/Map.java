@@ -15,7 +15,9 @@ public class Map implements Map2D {
 	 * @param h
 	 * @param v
 	 */
-	public Map(int w, int h, int v) {init(w,h, v);}
+	public Map(int w, int h, int v) {
+		init(w,h, v);
+		}
 	/**
 	 * Constructs a square map (size*size).
 	 * @param size
@@ -50,26 +52,45 @@ public class Map implements Map2D {
 		return ans;
 	}
 	@Override
-	/////// add your code below ///////
-	public int getWidth() {return 0;}
+	// return amount of the columns in the first row.
+	public int getWidth() {
+		return this._map[0].length;		
+		}
 	@Override
-	/////// add your code below ///////
-	public int getHeight() {return 0;}
+	// return amount of rows 
+	public int getHeight() {
+		return this._map.length;
+	}
 	@Override
-	/////// add your code below ///////
-	public int getPixel(int x, int y) { return 0;}
+	// return value of pixel in row y column x [][], "if" because x || y can't be negative.
+	public int getPixel(int x, int y) { 
+		if (x < 0 || y < 0) {
+			return -1;
+		}
+		return this._map[y][x];
+	}
 	@Override
-	/////// add your code below ///////
-	public int getPixel(Pixel2D p) {
+	/* return value of point p in the matrix, overload from last function, doesn't need "if" because
+	it calls the geters. */
+	public int getPixel(Pixel2D p) {	
 		return this.getPixel(p.getX(),p.getY());
 	}
 	@Override
-	/////// add your code below ///////
-	public void setPixel(int x, int y, int v) {;}
+	// set v (value) in row y column x
+	public void setPixel(int x, int y, int v) {
+		if (x < 0 || y < 0) {
+			return;
+		}	
+		this._map[y][x] = v;
+	}
 	@Override
-	/////// add your code below ///////
+
+	// return value of point p in the matrix, "if" because getY, getX can't be negative.
 	public void setPixel(Pixel2D p, int v) {
-		;
+		if (x < 0 || y < 0) {
+			return ;
+		}	
+		this._map[p.getY()][p.getX()] = v;
 	}
 	@Override
 	/** 
