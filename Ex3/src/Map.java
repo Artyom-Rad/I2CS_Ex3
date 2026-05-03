@@ -1,5 +1,5 @@
 package assignments.Ex3;
-
+import java.util.ArrayList;
 /**
  * This class represents a 2D map as a "screen" or a raster matrix or maze over integers.
  * @author boaz.benmoshe
@@ -87,7 +87,7 @@ public class Map implements Map2D {
 
 	// return value of point p in the matrix, "if" because getY, getX can't be negative.
 	public void setPixel(Pixel2D p, int v) {
-		if (x < 0 || y < 0) {
+		if (p.getX() < 0 || p.getY() < 0) {
 			return ;
 		}	
 		this._map[p.getY()][p.getX()] = v;
@@ -113,7 +113,8 @@ public class Map implements Map2D {
 	public Pixel2D[] shortestPath(Pixel2D p1, Pixel2D p2, int obsColor) {
 		Pixel2D[] ans = null;  // the result.
 		/////// add your code below ///////
-
+		
+		
 		///////////////////////////////////
 		return ans;
 	}
