@@ -31,24 +31,52 @@ public class Map implements Map2D {
 	public Map(int[][] data) {
 		init(data);
 	}
+	// Constructs a map from scratch with a given width, height and a starting value.
 	@Override
 	public void init(int w, int h, int v) {
-		/////// add your code below ///////
-
-		///////////////////////////////////
+		if (w <= 0 || h <= 0) {
+			this._map = new int [0][0];
+			return;
+		}
+		this._map = new int [h][w];
+		for(int[] row : this._map){
+			for ( int col = 0; col < w; col++){
+			row[col] = v;
+			}
+		}
 	}
+	// Takes an existing 2D array and copies it to my map.
 	@Override
 	public void init(int[][] arr) {
-		/////// add your code below ///////
-
-		///////////////////////////////////
+		if (arr == null || arr.length == 0 || arr[0] == null){
+			this._map = new int [0][0];
+			return;
+		}
+		int totalRows = arr.length;
+		this._map = new int [totalRows][];
+		for (int r = 0; r < totalRows; r++){
+			int totalCols = arr[r].length;
+			this._map[r] = new int[totalCols];
+			for (int c = 0; c < totalCols; c++){
+				this._map [r][c] = arr [r][c];
+			}
+	   	}
 	}
+	// Returns a copy of my current map for the user.
 	@Override
 	public int[][] getMap() {
 		int[][] ans = null;
-		/////// add your code below ///////
-
-		///////////////////////////////////
+		if (this._map == null){
+			return null;
+		}
+		int h = this.getHeight();
+		int w = this.getWidth();
+		ans = new int [h][w];
+		for (int r = h - 1; r >= 0; r--){
+			for (int c = w - 1; c >= 0; c--){
+				ans[r][c] = this._map[r][c];
+			}
+		}
 		return ans;
 	}
 	@Override
@@ -99,9 +127,7 @@ public class Map implements Map2D {
 	 */
 	public int fill(Pixel2D xy, int new_v) {
 		int ans=0;
-		/////// add your code below ///////
-
-		///////////////////////////////////
+		
 		return ans;
 	}
 
