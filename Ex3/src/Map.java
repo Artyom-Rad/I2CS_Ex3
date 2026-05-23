@@ -127,8 +127,31 @@ public class Map implements Map2D {
 	 */
 	public int fill(Pixel2D xy, int new_v) {
 		int ans=0;
-		/////// add your code below ///////
-		return ans;
+		if (xy == null){
+			return ans;
+		}
+		int startX = xy.getX();
+		int startY = xy.getY();
+		int old_v = this.getPixel(startX, startY);
+		if (old_v == -1 || old_v == new_v){
+			return ans;
+		}
+		ArrayList<Pixel2D> targets = new ArrayList<Pixel2D>();
+		targets.add(xy);
+		setPixel(startX, startY, new_v);
+		ans++;
+		int [] dx = {-1, 0, 1, 0};
+		int [] dy = {0, 1, 0, -1};
+		for (int i = 0; i < 4; i++){
+			int nextX = startX + dx[i];
+			int nextY = startY + dy[i];
+			if (getPixel (nextX, nextY) == old_v){
+				setPixel(nextX, nextY, new_v);
+				ans++;
+				targets.add(new Index2D(nextX, nextY));
+			}
+		}
+		return ans;	
 	}
 
 	@Override
@@ -138,11 +161,68 @@ public class Map implements Map2D {
 	 */
 	public Pixel2D[] shortestPath(Pixel2D p1, Pixel2D p2, int obsColor) {
 		Pixel2D[] ans = null;  // the result.
-		/////// add your code below ///////
-		
-		
-		///////////////////////////////////
+		if (p1 == null || p2 == null){
+			return ans;
+		}
+		startCol = getPixel(p1);
+		endCol = getPixel(p2);
+		if (startCol == obsColor || endCol == obsColor || startCol == -1 || endCol == -1){
+			return null;
+		}
+		if (p1.getX() == p2.getX() && p1.getY() == p2.getY()){
+			return new Pixel2D[]{p1};
+		}
+		int h = getHeight();
+		int w = getWidth();
+		int [][] stepsGrid = new int [h][w];
+		for (int i = 0; i < h; i++){
+			for (int j = 0; j < w; j++){
+				stepsGrid[i][j] = -1;
+			}
+		}
+		ArrayList<Pixel2d> queue = new ArrayList<>();
+		queue.add(p1);
+		stepsGrid[p1.getY()][p1.getX()] = 0;
 		return ans;
+		int [] dx = {-1, 0, 1, 0};
+		int [] dy = {0, 1, 0, -1};
+		boolean reached = false;
+		while (queue.size() > 0 ){
+			Pixel2D curr = queue.remove(0);
+			if (curr.getX() ==p2.getX() && curr.getY() == p2.getY()){
+				reached = true;
+				break;
+			}
+			int currentDistance = stepsGrid[curr.getY()][curr.getX()];
+			for (int i = 0; i < 4; i++){
+				int nextX = curr.getX() + dx[i];
+				int nextY = curr.getY() + dy[i];
+				if (getPixel(nextX, nextY) != -1 && getPixel(nextX, nextY) != obsColor && stepsGrid[nextY][nextX] == -1){
+					stepsGrid[nextY][nextX] = currentDistance + 1;
+					queue.add (new Index2D(nextX, nextY));
+				}
+			}
+		}
+		if (!reached){
+			return null;
+		}
+		int totalSteps = stepsGrid[p2.getY()][p2.getX()];
+		ans = new Pixel2D[totalSteps + 1];
+		Pixel2D check = p1;
+		ans[0] = check;
+		for(int k = 1; k <= totalSteps; k++){
+			for (int i = 0; i < 4; i++){
+				int nextX = check.getX() + dx[i];
+				int nextY = check.getY() + dy[i];
+				if (nextX >= 0 && nextY >= 0 && nextX < w && nextY < h){
+					if (stepsGrid[nextY][nextX] == k){
+						check = new Index2D(nextX, nextY);
+						ans[k] = check;
+						break;
+					}
+				}
+			}
+		}
 	}
 	@Override
 	/////// add your code below ///////
