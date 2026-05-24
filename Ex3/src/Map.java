@@ -225,26 +225,64 @@ public class Map implements Map2D {
 		}
 	}
 	@Override
-	/////// add your code below ///////
+	// Checks if the point is inside the map.
 	public boolean isInside(Pixel2D p) {
+		if(p == null){	
+			return false;
+		}
+		int w = getWidth();
+		int h = getHeight();
+		int px = p.getX();
+		int py = p.getY();
+		if (px >= 0 && py >= 0 && px < w && py < h){
+			return true;
+		}
 		return false;
 	}
 
 	@Override
-	/////// add your code below ///////
+	// Checks if the map is cyclic. 
 	public boolean isCyclic() {
+		if (this._cyclicFlag){
+			return true;
+		}
 		return false;
 	}
 	@Override
-	/////// add your code below ///////
-	public void setCyclic(boolean cy) {;}
+	// Lets the user set if the map is cyclic or not.
+	public void setCyclic(boolean cy) {
+		this._cyclicFlag = cy;
+	}
 	@Override
-	/////// add your code below ///////
+	/*  Gets a starting point and a color of an obstacle and calculates the shortest 
+	 	distance from the starting point to every reachable pixel in the map. */
 	public Map2D allDistance(Pixel2D start, int obsColor) {
 		Map2D ans = null;  // the result.
-		/////// add your code below ///////
-
-		///////////////////////////////////
+		if (start == null || !isInside(start) || getPixel(start) == obsColor){
+			return ans;
+		}
+		int rows = getHeight();
+		int cols = getWidth();
+		Map distMap = new map (cols, rows, -1);
+		ArrayList<Pixel2D> queue = new ArrayList<>();
+		queue.add(start);
+		distMap.setPixel(start, 0);
+		int [][] directions - {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+		while (queue.size() > 0 ){
+			Pixel2D curr = queue.remove(0);
+			int currentDistance = distMap.getPixel(curr);
+			for (int i= 0; i < 4; i++){
+				int nextX = curr.getX() + directions [i][0];
+				int nextY = curr.getY() + directions [i][1];
+				Pixel2D nextP = new Index2D(nextX, nextY);
+				if (isInside(nextP) && getPixerl(nextP) != obsColor){
+					if (distMap.getPixel(nextP) == -1){
+						distMap.setPixel(nextP, currentDistance + 1);
+						queue.add(nextP);
+					}
+				}
+			}
+		}
 		return ans;
 	}
 }
